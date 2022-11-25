@@ -1,23 +1,26 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 export const notifyFailureMessage = () => {
-  return Notify.failure('Oops, there is no country with that name', {
-    opacity: 0.8,
-    position: 'center-top',
-    timeout: 300,
-    cssAnimationDuration: 800,
-    backOverlay: true,
-    backOverlayColor: 'rgba(50,198,130,0.2)',
-    cssAnimationStyle: 'zoom',
-  });
+  return Notify.failure(
+    'Sorry, there are no images matching your search query. Please try again.',
+    {
+      opacity: 0.8,
+      position: 'center',
+      timeout: 300,
+      cssAnimationDuration: 800,
+      backOverlay: true,
+      backOverlayColor: 'rgba(50,198,130,0.2)',
+      cssAnimationStyle: 'zoom',
+    }
+  );
 };
 
 export const notifyInfoMessage = () => {
   return Notify.info(
-    'Too many matches found. Please enter a more specific name.',
+    "We're sorry, but you've reached the end of search results.",
     {
       opacity: 0.8,
-      position: 'center-top',
+      position: 'center',
       timeout: 300,
       backOverlay: true,
       cssAnimationDuration: 800,

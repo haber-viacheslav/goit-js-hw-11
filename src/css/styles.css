@@ -12,7 +12,7 @@ body {
   background-color: #221e32;
 }
 
-#search-box {
+/* #search-box {
   font: inherit;
   padding: 8px 8px 8px 20px;
   max-width: 320px;
@@ -66,4 +66,4 @@ body {
   border: 1px solid #0d013e;
   background: linear-gradient(145deg, #0d013e, #2711ba);
   box-shadow: 12px 12px 30px #2e2bc2, -12px -12px 30px #1d06eb;
-}
+} */

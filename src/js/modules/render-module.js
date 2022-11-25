@@ -1,30 +1,31 @@
-function renderCountriesList(arr) {
+function renderGallery(arr) {
   return arr
-    .map(country => {
-      return `
-    <li class="country__item">
-      <img class="country__img" src="${country.flags.svg}" alt="${country.name}" width="80">
-      <h2>${country.name.official}</h2>
-    </li>`;
+    .map(image => {
+      return `<a href="${image.largeImageURL}">
+                <div class="photo-card">
+                  <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
+                  <div class="info">
+                    <p class="info-item">
+                        <b>Likes</b>
+                        ${image.likes}
+                    </p>
+                    <p class="info-item">
+                        <b>Views</b>
+                        ${image.views}
+                    </p>
+                    <p class="info-item">
+                        <b>Comments</b>
+                        ${image.comments}
+                    </p>
+                    <p class="info-item">
+                        <b>Downloads</b>
+                        ${image.downloads}
+                    </p>
+                  </div>
+                </div>
+              </a>`;
     })
     .join('');
 }
 
-function renderCountryCard(arr) {
-  return arr
-    .map(country => {
-      return `<div class="country-wrapper">
-      <img src="${country.flags.svg}" alt="${country.name}" width="160">
-      <h2 class='country__title'>${country.name.official}</h2>
-      <p class='country__descr'>Capital:<span> ${country.capital}</span></p>
-      <p class='country__descr'>Polulation:<span> ${
-        country.population
-      }</span></p>
-      <p class='country__descr'>Languages:<span> ${Object.values(
-        country.languages
-      )}</span></p></div>`;
-    })
-    .join('');
-}
-
-export { renderCountriesList, renderCountryCard };
+export { renderGallery };
