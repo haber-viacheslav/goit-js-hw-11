@@ -1,5 +1,9 @@
 import { fetchPhotoApi } from './fetch-data';
-import { notifySuccessMessage, notifyFailureMessage } from './notify-msg';
+import {
+  notifySuccessMessage,
+  notifyFailureMessage,
+  notifyInfoSearchMessage,
+} from './notify-msg';
 import { renderGallery } from './render-module';
 import { refs } from './refs';
 import { observer } from './intersec-observer-api';
@@ -10,8 +14,10 @@ function onSearch(event) {
   event.preventDefault();
   searchQuery = event.currentTarget.searchQuery.value.trim();
   refs.galleryRef.innerHTML = '';
+  refs.guardRef.textContent = '';
 
   if (!searchQuery) {
+    notifyInfoSearchMessage();
     return;
   }
 

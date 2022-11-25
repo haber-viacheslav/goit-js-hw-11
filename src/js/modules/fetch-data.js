@@ -18,5 +18,3 @@ export function fetchPhotoApi(searchValue, pageNumber = 1) {
     return response.json();
   });
 }
-
-// https://pixabay.com/api/?key=29610060-546b0d52217012a7fbe24491a&q=boy&image_type=photo&orientation=horizontal&safesearch=true&page=2&per_page=40

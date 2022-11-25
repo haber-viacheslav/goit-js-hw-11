@@ -3,6 +3,7 @@ import { fetchPhotoApi } from './fetch-data';
 import { refs } from './refs';
 import { searchQuery } from './search-module';
 import { PER_PAGE } from './fetch-data';
+import { notifyInfoMessage } from './notify-msg';
 const TOTAL_HITS = 500;
 const MAX_PAGES = TOTAL_HITS / PER_PAGE;
 // Page counter
@@ -17,14 +18,13 @@ const options = {
 // Observer
 export const observer = new IntersectionObserver(onLoad, options);
 
+// infinite scroll
 function onLoad(entries, observer) {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       pageNumber += 1;
       fetchPhotoApi(searchQuery, pageNumber)
         .then(gallery => {
-          //   console.log(searchQuery);
-          //   console.log(gallery);
           refs.galleryRef.insertAdjacentHTML(
             'beforeend',
             renderGallery(gallery.hits)
@@ -36,8 +36,21 @@ function onLoad(entries, observer) {
 
       if (pageNumber === Math.round(MAX_PAGES)) {
         observer.unobserve(refs.guardRef);
-        return (pageNumber = 1);
+        pageNumber = 1;
       }
     }
   });
 }
+
+const optionsBottom = {
+  root: null,
+  rootMargin: '1px',
+  threshold: 1.0,
+};
+// Observer message
+const observerBottom = new IntersectionObserver(
+  notifyInfoMessage,
+  optionsBottom
+);
+
+function OnBottomMessage(entries, observer) {}
