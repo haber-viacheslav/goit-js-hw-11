@@ -15,17 +15,14 @@ export const notifyFailureMessage = () => {
   );
 };
 
-export const notifyInfoMessage = () => {
-  return Notify.info(
-    "We're sorry, but you've reached the end of search results.",
-    {
-      opacity: 0.8,
-      position: 'center',
-      timeout: 300,
-      backOverlay: true,
-      cssAnimationDuration: 800,
-      backOverlayColor: 'rgba(255,85,73,0.2)',
-      cssAnimationStyle: 'zoom',
-    }
-  );
+export const notifySuccessMessage = totalHits => {
+  return Notify.success(`Hooray! We found ${totalHits} images.`, {
+    opacity: 0.8,
+    position: 'center',
+    timeout: 300,
+    backOverlay: true,
+    cssAnimationDuration: 800,
+    backOverlayColor: 'rgba(255,85,73,0.2)',
+    cssAnimationStyle: 'zoom',
+  });
 };

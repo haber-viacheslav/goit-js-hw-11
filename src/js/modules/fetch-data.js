@@ -6,7 +6,7 @@ const searchParams = new URLSearchParams({
   safesearch: true,
 });
 
-export function fetchPhoto(searchValue, pageNumber) {
+export function fetchPhotoApi(searchValue, pageNumber = 1) {
   return fetch(
     `${BASE_URL}${PRIVATE_KEY}&q=${searchValue}&${searchParams}&page=${pageNumber}&per_page=40`
   ).then(response => {
