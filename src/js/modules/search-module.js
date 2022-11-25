@@ -17,7 +17,7 @@ function onSearch(event) {
 
   fetchPhotoApi(searchQuery)
     .then(gallery => {
-      // console.log(gallery);
+      console.log(gallery);
       if (!gallery.total) {
         return notifyFailureMessage();
       }
