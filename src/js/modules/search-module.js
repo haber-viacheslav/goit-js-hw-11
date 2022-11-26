@@ -7,6 +7,7 @@ import {
 import { renderGallery } from './render-module';
 import { refs } from './refs';
 import { observer } from './intersec-observer-api';
+import { gallery } from './simple-lightbox';
 
 let searchQuery = '';
 
@@ -35,6 +36,7 @@ function onSearch(event) {
       observer.observe(refs.guardRef);
     })
     .catch(error => console.log(error));
+  gallery.refresh();
 }
 
 export { onSearch, searchQuery };

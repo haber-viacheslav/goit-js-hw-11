@@ -13,6 +13,48 @@ body {
   background-color: #221e32;
 }
 
+.gallery {
+  padding: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-card {
+  flex-basis: calc((100% - 20px) / 4);
+  background-color: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.photo-thumb {
+  height: 300px;
+  width: 500px;
+}
+
+.photo-thumb > img {
+  display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 20px 24px;
+}
+
+.info-item {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 /* #search-box {
   font: inherit;
   padding: 8px 8px 8px 20px;

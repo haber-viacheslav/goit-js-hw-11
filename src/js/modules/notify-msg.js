@@ -45,7 +45,7 @@ export const notifyInfoSearchMessage = () => {
   return Notify.info('Please fill the search field!', {
     opacity: 1,
     position: 'center-center',
-    timeout: 10000,
+    timeout: 1000,
     background: '#0c09db',
     backOverlay: true,
     cssAnimationDuration: 1000,

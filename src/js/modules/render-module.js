@@ -12,7 +12,9 @@ function renderGallery(arr) {
       }) => {
         return `<a href="${largeImageURL}">
                   <div class="photo-card">
+                  <div class="photo-thumb">
                     <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+                    </div>
                     <div class="info">
                       <p class="info-item">
                           <b>Likes</b>
@@ -31,8 +33,7 @@ function renderGallery(arr) {
                           ${downloads}
                       </p>
                     </div>
-                  </div>
-                </a>`;
+                  </div></a>`;
       }
     )
     .join('');

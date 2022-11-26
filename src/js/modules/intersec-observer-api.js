@@ -4,6 +4,7 @@ import { refs } from './refs';
 import { searchQuery } from './search-module';
 import { PER_PAGE } from './fetch-data';
 import { notifyInfoMessage } from './notify-msg';
+import { gallery } from './simple-lightbox';
 const TOTAL_HITS = 500;
 const MAX_PAGES = TOTAL_HITS / PER_PAGE;
 // Page counter
@@ -11,7 +12,7 @@ let pageNumber = 1;
 // Observer Options
 const options = {
   root: null,
-  rootMargin: '300px',
+  rootMargin: '1000px',
   threshold: 1.0,
 };
 
@@ -29,6 +30,7 @@ function onLoad(entries, observer) {
             'beforeend',
             renderGallery(gallery.hits)
           );
+          gallery.refresh();
         })
         .catch(error => {
           console.log(error);
@@ -36,6 +38,7 @@ function onLoad(entries, observer) {
 
       if (pageNumber === Math.round(MAX_PAGES)) {
         observer.unobserve(refs.guardRef);
+        observerBottom.observe(refs.guardRef);
         pageNumber = 1;
       }
     }
@@ -48,9 +51,15 @@ const optionsBottom = {
   threshold: 1.0,
 };
 // Observer message
-const observerBottom = new IntersectionObserver(
-  notifyInfoMessage,
+export const observerBottom = new IntersectionObserver(
+  OnBottomMessage,
   optionsBottom
 );
 
-function OnBottomMessage(entries, observer) {}
+function OnBottomMessage(entries, observerBottom) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      notifyInfoMessage();
+    }
+  });
+}
