@@ -7,7 +7,7 @@ import {
 import { renderGallery } from './render-module';
 import { refs } from './refs';
 import { observer } from './intersec-observer-api';
-import { gallery } from './simple-lightbox';
+import { simpleGallery } from './simple-lightbox';
 
 let searchQuery = '';
 
@@ -33,10 +33,19 @@ function onSearch(event) {
         'beforeend',
         renderGallery(gallery.hits)
       );
+      simpleGallery.refresh();
+      const { height: cardHeight } = document
+        .querySelector('.gallery')
+        .firstElementChild.getBoundingClientRect();
+
+      window.scrollBy({
+        top: cardHeight * 2,
+        behavior: 'smooth',
+      });
+
       observer.observe(refs.guardRef);
     })
     .catch(error => console.log(error));
-  gallery.refresh();
 }
 
 export { onSearch, searchQuery };

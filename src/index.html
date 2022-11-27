@@ -8,13 +8,40 @@
   </head>
   <body>
     <form class="search-form" id="search-form">
+      <!--  -->
+      <div class="container">
+        <input
+          placeholder="Type to search..."
+          required=""
+          class="input"
+          name="text"
+          type="text"
+        />
+        <div class="icon">
+          <svg class="ionicon">
+            <use href="./svg/icons.svg#icon-search"></use>
+          </svg>
+        </div>
+      </div>
+
+      <!--  -->
       <input
         type="text"
         name="searchQuery"
         autocomplete="off"
         placeholder="Search images..."
       />
-      <button type="submit">Search</button>
+      <button type="submit">
+        <svg width="15" height="15">
+          <use href="./svg/icons.svg#icon-search"></use>
+        </svg>
+      </button>
+      <button type="button" class="theme-btn" data-current="false">
+        <svg class="theme-icon" width="15" height="15">
+          <use class="theme-light" href="./svg/icons.svg#icon-sun"></use>
+          <use class="theme-dark" href="./svg/icons.svg#icon-contrast"></use>
+        </svg>
+      </button>
     </form>
 
     <div class="gallery"></div>

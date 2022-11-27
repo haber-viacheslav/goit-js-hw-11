@@ -1,3 +1,4 @@
+import { gallery } from './simple-lightbox';
 function renderGallery(arr) {
   return arr
     .map(

@@ -4,7 +4,7 @@ import { refs } from './refs';
 import { searchQuery } from './search-module';
 import { PER_PAGE } from './fetch-data';
 import { notifyInfoMessage } from './notify-msg';
-import { gallery } from './simple-lightbox';
+import { simpleGallery } from './simple-lightbox';
 const TOTAL_HITS = 500;
 const MAX_PAGES = TOTAL_HITS / PER_PAGE;
 // Page counter
@@ -30,7 +30,15 @@ function onLoad(entries, observer) {
             'beforeend',
             renderGallery(gallery.hits)
           );
-          gallery.refresh();
+          simpleGallery.refresh();
+          const { height: cardHeight } = document
+            .querySelector('.gallery')
+            .firstElementChild.getBoundingClientRect();
+
+          window.scrollBy({
+            top: cardHeight * 2,
+            behavior: 'smooth',
+          });
         })
         .catch(error => {
           console.log(error);
