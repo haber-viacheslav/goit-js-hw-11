@@ -1,4 +1,4 @@
-import { renderGallery } from './render-module';
+import { galleryMurkup } from './markup-module';
 import { fetchPhotoApi } from './fetch-data';
 import { refs } from './refs';
 import { searchQuery } from './search-module';
@@ -28,7 +28,7 @@ function onLoad(entries, observer) {
         .then(gallery => {
           refs.galleryRef.insertAdjacentHTML(
             'beforeend',
-            renderGallery(gallery.hits)
+            galleryMurkup(gallery.hits)
           );
           simpleGallery.refresh();
           const { height: cardHeight } = document

@@ -4,7 +4,7 @@ import {
   notifyFailureMessage,
   notifyInfoSearchMessage,
 } from './notify-msg';
-import { renderGallery } from './render-module';
+import { galleryMurkup } from './markup-module';
 import { refs } from './refs';
 import { observer } from './intersec-observer-api';
 import { simpleGallery } from './simple-lightbox';
@@ -24,14 +24,13 @@ function onSearch(event) {
 
   fetchPhotoApi(searchQuery)
     .then(gallery => {
-      console.log(gallery);
       if (!gallery.total) {
         return notifyFailureMessage();
       }
       notifySuccessMessage(gallery.totalHits);
       refs.galleryRef.insertAdjacentHTML(
         'beforeend',
-        renderGallery(gallery.hits)
+        galleryMurkup(gallery.hits)
       );
       simpleGallery.refresh();
       const { height: cardHeight } = document

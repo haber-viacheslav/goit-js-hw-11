@@ -1,5 +1,4 @@
-import { gallery } from './simple-lightbox';
-function renderGallery(arr) {
+export function galleryMurkup(arr) {
   return arr
     .map(
       ({
@@ -39,5 +38,3 @@ function renderGallery(arr) {
     )
     .join('');
 }
-
-export { renderGallery };
