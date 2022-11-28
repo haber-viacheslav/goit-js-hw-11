@@ -10,21 +10,9 @@ const searchParams = new URLSearchParams({
   safesearch: true,
 });
 
-export function fetchPhotoApi(searchValue, pageNumber = 1) {
-  return fetch(
+export async function fetchPhotoApi(searchValue, pageNumber = 1) {
+  const response = await axios.get(
     `${BASE_URL}${PRIVATE_KEY}&q=${searchValue}&${searchParams}&page=${pageNumber}&per_page=${PER_PAGE}`
-  ).then(response => {
-    console.log(response);
-
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-    return response.json();
-  });
+  );
+  return response;
 }
-
-axios
-  .get(
-    `${BASE_URL}${PRIVATE_KEY}&q=cats&${searchParams}&page=2&per_page=${PER_PAGE}`
-  )
-  .then(response => console.log(response));

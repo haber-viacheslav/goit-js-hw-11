@@ -1,18 +1,70 @@
 import { galleryMurkup } from './markup-module';
 import { fetchPhotoApi } from './fetch-data';
 import { refs } from './refs';
-import { searchQuery } from './search-module';
 import { PER_PAGE } from './fetch-data';
 import { notifyInfoMessage } from './notify-msg';
 import { simpleGallery } from './simple-lightbox';
-const TOTAL_HITS = 500;
-const MAX_PAGES = TOTAL_HITS / PER_PAGE;
+import {
+  notifySuccessMessage,
+  notifyFailureMessage,
+  notifyInfoSearchMessage,
+} from './notify-msg';
+
+let searchQuery = '';
+export let pageNumber = 1;
+export let totalHits = '';
+
+refs.searchFormRef.addEventListener('submit', onSearch);
+
+function onSearch(event) {
+  event.preventDefault();
+  pageNumber = 1;
+  observer.unobserve(refs.guardRef);
+  searchQuery = event.currentTarget.searchQuery.value.trim();
+  refs.galleryRef.innerHTML = '';
+  event.currentTarget.reset();
+
+  if (!searchQuery) {
+    refs.galleryRef.innerHTML = '';
+    notifyInfoSearchMessage();
+    return;
+  }
+
+  fetchPhotoApi(searchQuery, pageNumber)
+    .then(gallery => {
+      totalHits = gallery.data.totalHits;
+
+      if (!gallery.data.totalHits) {
+        return notifyFailureMessage();
+      }
+      notifySuccessMessage(gallery.data.totalHits);
+      refs.galleryRef.insertAdjacentHTML(
+        'beforeend',
+        galleryMurkup(gallery.data.hits)
+      );
+      simpleGallery.refresh();
+      const { height: cardHeight } = document
+        .querySelector('.gallery')
+        .firstElementChild.getBoundingClientRect();
+
+      window.scrollBy({
+        top: cardHeight * 2,
+        behavior: 'smooth',
+      });
+
+      observer.observe(refs.guardRef);
+    })
+    .catch(error => console.log(error));
+}
+
+export { onSearch, searchQuery };
+
 // Page counter
-let pageNumber = 1;
+
 // Observer Options
 const options = {
   root: null,
-  rootMargin: '1000px',
+  rootMargin: '200px',
   threshold: 1.0,
 };
 
@@ -24,11 +76,12 @@ function onLoad(entries, observer) {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       pageNumber += 1;
+
       fetchPhotoApi(searchQuery, pageNumber)
         .then(gallery => {
           refs.galleryRef.insertAdjacentHTML(
             'beforeend',
-            galleryMurkup(gallery.hits)
+            galleryMurkup(gallery.data.hits)
           );
           simpleGallery.refresh();
           const { height: cardHeight } = document
@@ -44,7 +97,7 @@ function onLoad(entries, observer) {
           console.log(error);
         });
 
-      if (pageNumber === Math.round(MAX_PAGES)) {
+      if (pageNumber === Math.round(totalHits / PER_PAGE)) {
         observer.unobserve(refs.guardRef);
         observerBottom.observe(refs.guardRef);
         pageNumber = 1;
