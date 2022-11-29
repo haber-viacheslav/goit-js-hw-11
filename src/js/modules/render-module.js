@@ -1,4 +1,3 @@
-import { galleryMurkup } from './markup-module';
 import { fetchPhotoApi } from './fetch-data';
 import { refs } from './refs';
 import { PER_PAGE } from './fetch-data';
@@ -9,6 +8,7 @@ import {
   notifyFailureMessage,
   notifyInfoSearchMessage,
 } from './notify-msg';
+import addMarkup from './add-markup';
 
 let searchQuery = '';
 export let pageNumber = 1;
@@ -16,7 +16,7 @@ export let totalHits = '';
 
 refs.searchFormRef.addEventListener('submit', onSearch);
 
-function onSearch(event) {
+async function onSearch(event) {
   event.preventDefault();
   pageNumber = 1;
   observer.unobserve(refs.guardRef);
@@ -30,27 +30,17 @@ function onSearch(event) {
     return;
   }
 
-  fetchPhotoApi(searchQuery, pageNumber)
+  await fetchPhotoApi(searchQuery, pageNumber)
     .then(gallery => {
       totalHits = gallery.data.totalHits;
 
-      if (!gallery.data.totalHits) {
+      if (!totalHits) {
         return notifyFailureMessage();
       }
-      notifySuccessMessage(gallery.data.totalHits);
-      refs.galleryRef.insertAdjacentHTML(
-        'beforeend',
-        galleryMurkup(gallery.data.hits)
-      );
-      simpleGallery.refresh();
-      const { height: cardHeight } = document
-        .querySelector('.gallery')
-        .firstElementChild.getBoundingClientRect();
+      notifySuccessMessage(totalHits);
+      addMarkup(gallery.data.hits);
 
-      window.scrollBy({
-        top: cardHeight * 2,
-        behavior: 'smooth',
-      });
+      simpleGallery.refresh();
 
       observer.observe(refs.guardRef);
     })
@@ -72,17 +62,14 @@ const options = {
 export const observer = new IntersectionObserver(onLoad, options);
 
 // infinite scroll
-function onLoad(entries, observer) {
-  entries.forEach(entry => {
+async function onLoad(entries, observer) {
+  await entries.forEach(entry => {
     if (entry.isIntersecting) {
       pageNumber += 1;
 
       fetchPhotoApi(searchQuery, pageNumber)
         .then(gallery => {
-          refs.galleryRef.insertAdjacentHTML(
-            'beforeend',
-            galleryMurkup(gallery.data.hits)
-          );
+          addMarkup(gallery.data.hits);
           simpleGallery.refresh();
           const { height: cardHeight } = document
             .querySelector('.gallery')
