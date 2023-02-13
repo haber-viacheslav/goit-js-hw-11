@@ -16,7 +16,7 @@ export let totalHits = '';
 
 refs.searchFormRef.addEventListener('submit', onSearch);
 
-function onSearch(event) {
+ function onSearch(event) {
   event.preventDefault();
   pageNumber = 1;
   observer.unobserve(refs.guardRef);
@@ -30,7 +30,7 @@ function onSearch(event) {
     return;
   }
 
-  fetchPhotoApi(searchQuery, pageNumber)
+   fetchPhotoApi(searchQuery, pageNumber)
     .then(gallery => {
       totalHits = gallery.data.totalHits;
 
@@ -38,19 +38,8 @@ function onSearch(event) {
         return notifyFailureMessage();
       }
       notifySuccessMessage(gallery.data.totalHits);
-      refs.galleryRef.insertAdjacentHTML(
-        'beforeend',
-        galleryMurkup(gallery.data.hits)
-      );
+      addMarkup(gallery.data.hits);
       simpleGallery.refresh();
-      const { height: cardHeight } = document
-        .querySelector('.gallery')
-        .firstElementChild.getBoundingClientRect();
-
-      window.scrollBy({
-        top: cardHeight * 2,
-        behavior: 'smooth',
-      });
 
       observer.observe(refs.guardRef);
     })
@@ -72,17 +61,14 @@ const options = {
 export const observer = new IntersectionObserver(onLoad, options);
 
 // infinite scroll
-function onLoad(entries, observer) {
+async function onLoad(entries, observer) {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       pageNumber += 1;
 
       fetchPhotoApi(searchQuery, pageNumber)
         .then(gallery => {
-          refs.galleryRef.insertAdjacentHTML(
-            'beforeend',
-            galleryMurkup(gallery.data.hits)
-          );
+          addMarkup(gallery.data.hits);
           simpleGallery.refresh();
           const { height: cardHeight } = document
             .querySelector('.gallery')
@@ -123,4 +109,8 @@ function OnBottomMessage(entries, observerBottom) {
       notifyInfoMessage();
     }
   });
+}
+
+function addMarkup(arr) {
+  refs.galleryRef.insertAdjacentHTML('beforeend', galleryMurkup(arr));
 }
