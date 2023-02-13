@@ -65,6 +65,9 @@ export const observer = new IntersectionObserver(onLoad, options);
 // infinite scroll
 async function onLoad(entries, observer) {
   await entries.forEach(entry => {
+    if (pageNumber === Math.round(totalHits / PER_PAGE) || totalHits <= 40) {
+      return;
+    }
     if (entry.isIntersecting) {
       pageNumber += 1;
 
@@ -85,7 +88,7 @@ async function onLoad(entries, observer) {
           console.log(error);
         });
 
-      if (pageNumber === Math.round(totalHits / PER_PAGE)) {
+      if (pageNumber === Math.round(totalHits / PER_PAGE) || totalHits <= 40) {
         observer.unobserve(refs.guardRef);
         observerBottom.observe(refs.guardRef);
         pageNumber = 1;
