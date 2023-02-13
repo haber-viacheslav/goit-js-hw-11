@@ -1,4 +1,4 @@
-export function galleryMurkup(arr) {
+export function galleryMarkup(arr) {
   return arr
     .map(
       ({

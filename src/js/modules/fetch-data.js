@@ -11,8 +11,13 @@ const searchParams = new URLSearchParams({
 });
 
 export async function fetchPhotoApi(searchValue, pageNumber = 1) {
-  const response = await axios.get(
-    `${BASE_URL}${PRIVATE_KEY}&q=${searchValue}&${searchParams}&page=${pageNumber}&per_page=${PER_PAGE}`
-  );
-  return response;
+  try {
+    const response = await axios.get(
+      `${BASE_URL}${PRIVATE_KEY}&q=${searchValue}&${searchParams}&page=${pageNumber}&per_page=${PER_PAGE}`
+    );
+
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
 }
