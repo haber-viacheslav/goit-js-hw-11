@@ -14,9 +14,7 @@ let searchQuery = '';
 export let pageNumber = 1;
 export let totalHits = '';
 
-refs.searchFormRef.addEventListener('submit', onSearch);
-
-async function onSearch(event) {
+const onSearch = async event => {
   event.preventDefault();
   pageNumber = 1;
   observer.unobserve(refs.guardRef);
@@ -46,7 +44,7 @@ async function onSearch(event) {
       observer.observe(refs.guardRef);
     })
     .catch(error => console.log(error));
-}
+};
 
 export { onSearch, searchQuery };
 
@@ -64,10 +62,10 @@ export const observer = new IntersectionObserver(onLoad, options);
 
 // infinite scroll
 async function onLoad(entries, observer) {
+  if (pageNumber === Math.round(totalHits / PER_PAGE) || totalHits <= 40) {
+    return;
+  }
   await entries.forEach(entry => {
-    if (pageNumber === Math.round(totalHits / PER_PAGE) || totalHits <= 40) {
-      return;
-    }
     if (entry.isIntersecting) {
       pageNumber += 1;
 
@@ -119,3 +117,5 @@ function OnBottomMessage(entries, observerBottom) {
 function addMarkup(arr) {
   refs.galleryRef.insertAdjacentHTML('beforeend', galleryMurkup(arr));
 }
+
+refs.searchFormRef.addEventListener('submit', onSearch);

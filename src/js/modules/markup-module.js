@@ -1,4 +1,4 @@
-export function galleryMarkup(arr) {
+export const galleryMarkup = arr => {
   return arr
     .map(
       ({
@@ -37,4 +37,4 @@ export function galleryMarkup(arr) {
       }
     )
     .join('');
-}
+};
